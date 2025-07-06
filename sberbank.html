@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Подтверждение платежа | CS 1.6</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #1e1e1e;
+            color: white;
+            text-align: center;
+            padding: 60px 20px;
+        }
+        input, button {
+            padding: 10px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        button {
+            background-color: #00d8ff;
+            color: black;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #00ffe7;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Подтверждение пожертвования</h1>
+
+<p>Для завершения пожертвования введите код подтверждения:</p>
+
+<input type="text" id="confirmationCode" placeholder="Код подтверждения (например: 1234)">
+<br>
+<button onclick="submitDonation()">Продолжить</button>
+
+<script>
+    // Получаем сумму из URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const amount = urlParams.get('amount');
+
+    function submitDonation() {
+        const code = document.getElementById('confirmationCode').value;
+
+        if (code === "1234") {
+            alert(`Вы успешно пожертвовали ${amount} рублей!`);
+            window.location.href = 'index.html'; // Перенаправление на главную
+        } else {
+            alert("Неверный код подтверждения!");
+        }
+    }
+</script>
+
+</body>
+</html>

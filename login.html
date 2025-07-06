@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Авторизация | CS 1.6</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to bottom right, #0f0f0f, #1a1a1a);
+            color: #f0f0f0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        form {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        button {
+            background-color: #00d8ff;
+            color: black;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #00ffe7;
+        }
+    </style>
+</head>
+<body>
+    <form id="loginForm">
+        <h2 style="text-align:center;">Авторизация</h2>
+        <label for="nickname">Никнейм:</label>
+        <input type="text" id="nickname" name="nickname" placeholder="Ваш никнейм" required>
+
+        <label for="password">Пароль:</label>
+        <input type="password" id="password" name="password" placeholder="Ваш пароль" required>
+
+        <button type="submit">Войти</button>
+    </form>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            const nickname = document.getElementById("nickname").value.trim();
+            const password = document.getElementById("password").value;
+
+            if (!nickname || !password) {
+                alert("Пожалуйста, заполните все поля.");
+                return;
+            }
+
+            // Получаем пользователей из localStorage
+            const users = JSON.parse(localStorage.getItem("users")) || [];
+
+            // Проверяем наличие пользователя с таким ником и паролем
+            const user = users.find(u => u.nickname === nickname && u.password === password);
+
+            if (user) {
+                // Сохраняем токен пользователя
+                localStorage.setItem("token", user.token);
+                alert("Вы успешно вошли!");
+                window.location.href = "profile.html"; // Перенаправление на личный кабинет
+            } else {
+                alert("Неверный никнейм или пароль.");
+            }
+        });
+    </script>
+</body>
+</html>

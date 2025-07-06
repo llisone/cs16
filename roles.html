@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Роли | CS 1.6</title>
+    <style>
+        /* Общие стили */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to bottom right, #0f0f0f, #1a1a1a);
+            color: #f0f0f0;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: #00d8ff;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.85);
+            padding: 20px 40px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #00ffe7;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #00d8ff;
+        }
+
+        /* Контейнер ролей */
+        .roles-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            padding: 60px 20px;
+        }
+
+        .role-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            width: 300px;
+            box-shadow: 0 0 10px rgba(0, 216, 255, 0.3);
+            transition: transform 0.3s ease;
+            text-align: center;
+            color: white;
+            cursor: pointer;
+        }
+
+        .role-card:hover {
+            transform: scale(1.05);
+        }
+
+        .role-card h2 {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .role-card svg {
+            width: 24px;
+            height: 24px;
+            vertical-align: middle;
+        }
+
+        .role-card p {
+            font-size: 0.95rem;
+            color: #ccc;
+        }
+
+        /* Цвета для каждой роли */
+        .role-sponsor h2 {
+            background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: rainbowText 5s ease-in-out infinite;
+        }
+
+        @keyframes rainbowText {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        .role-owner {
+            background-color: white;
+            color: black;
+        }
+
+        .role-owner h2 {
+            color: black;
+        }
+
+        .role-vip-lite {
+            background-color: #27ae60; /* Зеленый */
+            color: white;
+        }
+
+        .role-vip-gold {
+            background-color: #f1c40f; /* Желтый */
+            color: black;
+        }
+
+        .role-vip-premium {
+            background-color: #e74c3c; /* Красный */
+            color: white;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #888;
+            font-size: 0.9rem;
+            margin-top: 60px;
+        }
+
+        /* Модальное окно */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.3s, opacity 0.3s;
+        }
+
+        .modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .modal {
+            background-color: #1a1a1a;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 0 20px #000;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .modal-close {
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #ccc;
+        }
+
+        .modal-body p {
+            font-size: 1rem;
+            color: #ddd;
+        }
+
+        .modal-footer {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .modal-footer a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #00d8ff;
+            color: black;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.3s;
+            text-decoration: none;
+        }
+
+        .modal-footer a:hover {
+            background-color: #00ffe7;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">Counter-Strike 1.6</div>
+    <nav id="userNav">
+        <!-- Навигация -->
+        <ul>
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="privileges.html">Привилегии</a></li>
+            <li><a href="support.html">Техподдержка</a></li>
+            <li><a href="roles.html">Роли</a></li>
+            <li><a href="donat.html">Пожертвовать</a></li>
+            <li><a href="login.html">Войти</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <section>
+        <h1>Роли</h1>
+        <p style="text-align:center; max-width: 800px; margin: auto;">
+            На сервере доступны различные привилегии, которые дают игрокам дополнительные возможности.
+        </p>
+
+        <div class="roles-container">
+            <!-- Спонсор -->
+            <div class="role-card role-sponsor" onclick="openRoleModal('sponsor')">
+                <h2>
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L3.5 7l8.5 5 8.5-5-8.5-5zM3.5 17.5l8.5 5 8.5-5M3.5 12l8.5 5 8.5-5"></path></svg>
+                    СПОНСОР
+                </h2>
+                <p>Максимальные привилегии, доступ к серверу и уникальные возможности.</p>
+            </div>
+
+            <!-- Владелец -->
+            <div class="role-card role-owner" onclick="openRoleModal('owner')">
+                <h2>
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 7v5c0 5 9 13 9 13s9-8 9-13V7z"/><circle cx="12" cy="8" r="3"/></svg>
+                    ВЛАДЕЛЕЦ
+                </h2>
+                <p>Полный контроль над сервером. Имя отображается в черно-белом цвете.</p>
+            </div>
+
+            <!-- VIP LITE -->
+            <div class="role-card role-vip-lite" onclick="openRoleModal('vip-lite')">
+                <h2>
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5 5 3 7-7-4-7 4 3-7-5-5h7z"/></svg>
+                    VIP LITE
+                </h2>
+                <p>Базовые привилегии: цвет ника, доступ к ограниченным функциям.</p>
+            </div>
+
+            <!-- VIP GOLD -->
+            <div class="role-card role-vip-gold" onclick="openRoleModal('vip-gold')">
+                <h2>
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.5 7H22l-6 4 2.5 7-6-4-6 4 2.5-7H2l2.5-7z"/></svg>
+                    VIP GOLD
+                </h2>
+                <p>Дополнительные скины, доступ к чату поддержки, скидки на магазин.</p>
+            </div>
+
+            <!-- VIP PREMIUM -->
+            <div class="role-card role-vip-premium" onclick="openRoleModal('vip-premium')">
+                <h2>
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L4 7l8 5 8-5-8-5zm0 12.5L4 19.5l8 5 8-5-8-5z"/></svg>
+                    VIP PREMIUM
+                </h2>
+                <p>Доступ к закрытым комнатам, особые бонусы, выделенный цвет никнейма.</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Модальное окно -->
+<div id="roleModal" class="modal-overlay">
+    <div class="modal">
+        <div class="modal-header">
+            <h2 id="modalTitle"></h2>
+            <span class="modal-close" onclick="closeRoleModal()">&times;</span>
+        </div>
+        <div class="modal-body">
+            <p id="modalDescription"></p>
+        </div>
+        <div class="modal-footer">
+            <a href="privileges.html">Хотите приобрести такую роль? Вам сюда → Привилегии</a>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>© 2025 CS 1.6 Fan Site. Неофициальный ресурс.</p>
+    <p>Все права принадлежат Valve Corporation.</p>
+</footer>
+
+<script>
+    const modal = document.getElementById("roleModal");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalDescription = document.getElementById("modalDescription");
+
+    // Описание ролей
+    const roleDescriptions = {
+        "sponsor": {
+            title: "СПОНСОР",
+            description: "Максимальные привилегии, доступ к серверу и уникальные возможности. Имя выделяется радужным эффектом."
+        },
+        "owner": {
+            title: "ВЛАДЕЛЕЦ",
+            description: "Полный контроль над сервером. Имя отображается в черно-белом цвете."
+        },
+        "vip-lite": {
+            title: "VIP LITE",
+            description: "Базовые привилегии: цвет ника, доступ к ограниченным функциям."
+        },
+        "vip-gold": {
+            title: "VIP GOLD",
+            description: "Дополнительные скины, доступ к чату поддержки, скидки на магазин."
+        },
+        "vip-premium": {
+            title: "VIP PREMIUM",
+            description: "Доступ к закрытым комнатам, особые бонусы, выделенный цвет никнейма."
+        }
+    };
+
+    function openRoleModal(role) {
+        const data = roleDescriptions[role];
+        if (data) {
+            modal.classList.add("active");
+            modalTitle.textContent = data.title;
+            modalDescription.textContent = data.description;
+        }
+    }
+
+    function closeRoleModal() {
+        modal.classList.remove("active");
+    }
+
+    window.onclick = function(event) {
+        if (event.target === modal) {
+            closeRoleModal();
+        }
+    };
+</script>
+
+</body>
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пожертвования | CS 1.6</title>
+    <style>
+        /* Общие стили */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to bottom right, #0f0f0f, #1a1a1a);
+            color: #f0f0f0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: #00d8ff;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.85);
+            padding: 20px 40px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #00ffe7;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        nav a:hover {
+            color: #00ffe7;
+        }
+
+        main {
+            padding: 60px 20px;
+            max-width: 800px;
+            margin: auto;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #00d8ff;
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            color: #ccc;
+        }
+
+        .balance-info {
+            font-size: 1rem;
+            margin-bottom: 30px;
+            color: #00d8ff;
+        }
+
+        .donate-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .donate-card {
+            background-color: rgba(0, 216, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            width: 200px;
+            box-shadow: 0 0 10px rgba(0, 216, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .donate-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .donate-card h3 {
+            margin-bottom: 10px;
+            color: #ffd700;
+        }
+
+        .donate-card button {
+            background-color: #00d8ff;
+            color: black;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .donate-card button:hover {
+            background-color: #00ffe7;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #888;
+            font-size: 0.9rem;
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">Counter-Strike 1.6</div>
+    <nav>
+        <ul>
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="donat.html">Пожертвовать</a></li>
+            <li><a href="profile.html">Профиль</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <h1>Пожертвование</h1>
+    <p>Поддержите развитие сервера и получите виртуальные монеты для покупки привилегий.</p>
+
+    <!-- Баланс пользователя -->
+    <div class="balance-info">
+        Ваш баланс: <strong><span id="userCoins">0</span> монет</strong>
+    </div>
+
+    <div class="donate-buttons">
+        <div class="donate-card">
+            <h3>50 руб</h3>
+            <button onclick="addCoins(50)">Пожертвовать</button>
+        </div>
+        <div class="donate-card">
+            <h3>100 руб</h3>
+            <button onclick="addCoins(100)">Пожертвовать</button>
+        </div>
+        <div class="donate-card">
+            <h3>250 руб</h3>
+            <button onclick="addCoins(250)">Пожертвовать</button>
+        </div>
+        <div class="donate-card">
+            <h3>500 руб</h3>
+            <button onclick="addCoins(500)">Пожертвовать</button>
+        </div>
+        <div class="donate-card">
+            <h3>Своя сумма</h3>
+            <input type="number" id="customAmount" placeholder="Введите сумму" style="width: 100%; padding: 10px; border-radius: 5px; border: none; margin-top: 10px;">
+            <button onclick="addCustomCoins()" style="margin-top: 10px;">Пожертвовать</button>
+        </div>
+    </div>
+
+    <p style="margin-top: 40px; font-size: 0.95rem;">
+        Платеж обрабатывается через безопасный сервис Сбербанк Касса.
+    </p>
+</main>
+
+<footer>
+    <p>© 2025 CS 1.6 Fan Site. Неофициальный ресурс.</p>
+    <p>Все права принадлежат Valve Corporation.</p>
+</footer>
+
+<script>
+    // Получаем текущего пользователя
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const token = localStorage.getItem('token');
+    const user = users.find(u => u.token === token);
+
+    if (!user) {
+        alert("Доступ только для авторизованных пользователей");
+        window.location.href = "login.html";
+    } else {
+        document.getElementById("userCoins").textContent = user.coins ? user.coins : 0;
+
+        function addCoins(amount) {
+            user.coins = (user.coins || 0) + amount;
+            localStorage.setItem('users', JSON.stringify(users));
+            document.getElementById("userCoins").textContent = user.coins;
+            alert(`Вы пополнили баланс на ${amount} монет`);
+        }
+
+        function addCustomCoins() {
+            const input = document.getElementById("customAmount");
+            const amount = parseInt(input.value);
+            if (!amount || isNaN(amount)) {
+                alert("Введите корректную сумму.");
+                return;
+            }
+            user.coins = (user.coins || 0) + amount;
+            localStorage.setItem('users', JSON.stringify(users));
+            document.getElementById("userCoins").textContent = user.coins;
+            input.value = "";
+            alert(`Вы пополнили баланс на ${amount} монет`);
+        }
+    }
+</script>
+
+</body>
+</html>

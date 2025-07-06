@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация | CS 1.6</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to bottom right, #0f0f0f, #1a1a1a);
+            color: #f0f0f0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        form {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        button {
+            background-color: #00d8ff;
+            color: black;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #00ffe7;
+        }
+    </style>
+</head>
+<body>
+    <form id="signupForm">
+        <h2 style="text-align:center;">Регистрация</h2>
+        <label for="nickname">Никнейм:</label>
+        <input type="text" id="nickname" name="nickname" placeholder="Ваш никнейм" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Ваш email" required>
+
+        <label for="password">Пароль:</label>
+        <input type="password" id="password" name="password" placeholder="Введите пароль" required>
+
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+
+    <script>
+        document.getElementById("signupForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            const nickname = document.getElementById("nickname").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value;
+
+            if (!nickname || !email || !password) {
+                alert("Пожалуйста, заполните все поля.");
+                return;
+            }
+
+            // Проверка, есть ли уже пользователи в localStorage
+            let users = JSON.parse(localStorage.getItem("users")) || [];
+
+            // Проверка на уникальность никнейма
+            if (users.some(user => user.nickname === nickname)) {
+                alert("Этот никнейм уже занят. Попробуйте другой.");
+                return;
+            }
+
+            // Создание нового пользователя
+            const newUser = {
+                nickname,
+                email,
+                password, // В реальном проекте пароль должен быть захэширован
+                token: Math.random().toString(36).substr(2, 9)
+            };
+
+            users.push(newUser);
+            localStorage.setItem("users", JSON.stringify(users));
+
+            alert("Вы успешно зарегистрировались!");
+            window.location.href = "login.html"; // Перенаправление на страницу входа
+        });
+    </script>
+</body>
+</html>

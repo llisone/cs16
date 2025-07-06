@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Привилегии | CS 1.6</title>
+    <style>
+        /* Общие стили */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to bottom right, #0f0f0f, #1a1a1a);
+            color: #f0f0f0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: #00d8ff;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.85);
+            padding: 20px 40px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #00ffe7;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        nav a:hover {
+            color: #00ffe7;
+        }
+
+        main {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: auto;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: #00d8ff;
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: #ccc;
+            margin-bottom: 40px;
+        }
+
+        .privileges-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            justify-items: center;
+        }
+
+        .privilege-card {
+            background-color: rgba(0, 216, 255, 0.1);
+            padding: 25px 20px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 300px;
+            text-align: center;
+            box-shadow: 0 0 12px rgba(0, 216, 255, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s;
+        }
+
+        .privilege-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 0 18px rgba(0, 216, 255, 0.5);
+        }
+
+        .privilege-card h3 {
+            margin-bottom: 10px;
+            color: #ffd700;
+            font-size: 1.3rem;
+        }
+
+        .price {
+            font-size: 1.2rem;
+            color: #00ffe7;
+            margin: 10px 0;
+        }
+
+        .balance-info {
+            font-size: 1rem;
+            color: #00d8ff;
+            margin-bottom: 20px;
+        }
+
+        .privilege-card button {
+            background-color: #00d8ff;
+            color: black;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            transition: background 0.3s;
+            margin-top: 15px;
+        }
+
+        .privilege-card button:hover {
+            background-color: #00ffe7;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #888;
+            font-size: 0.9rem;
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">Counter-Strike 1.6</div>
+    <nav>
+        <ul>
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="donat.html">Пожертвовать</a></li>
+            <li><a href="profile.html">Профиль</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <h1>Выберите привилегию</h1>
+    <p>Приобретите одну из доступных привилегий, чтобы получить дополнительные возможности на сервере.</p>
+
+    <!-- Баланс -->
+    <p class="balance-info" id="userBalance"></p>
+
+    <div class="privileges-list">
+        <!-- Спонсор -->
+        <div class="privilege-card">
+            <h3>СПОНСОР</h3>
+            <div class="price">100 монет</div>
+            <p>Максимальные привилегии, выделенный цвет никнейма, доступ к закрытым комнатам и уникальные бонусы.</p>
+            <button onclick="buyPrivilege('sponsor', 100)">Купить за монеты</button>
+        </div>
+
+        <!-- VIP PREMIUM -->
+        <div class="privilege-card">
+            <h3>VIP PREMIUM</h3>
+            <div class="price">75 монет</div>
+            <p>Доступ к закрытым комнатам, особые бонусы, выделенный цвет никнейма, подарки и приоритетная поддержка.</p>
+            <button onclick="buyPrivilege('vip-premium', 75)">Купить за монеты</button>
+        </div>
+
+        <!-- VIP GOLD -->
+        <div class="privilege-card">
+            <h3>VIP GOLD</h3>
+            <div class="price">50 монет</div>
+            <p>Дополнительные скины, доступ к чату поддержки, скидки на магазин и цвет ника.</p>
+            <button onclick="buyPrivilege('vip-gold', 50)">Купить за монеты</button>
+        </div>
+
+        <!-- VIP LITE -->
+        <div class="privilege-card">
+            <h3>VIP LITE</h3>
+            <div class="price">25 монет</div>
+            <p>Базовые привилегии: цвет ника, доступ к ограниченным функциям и уведомления о событиях.</p>
+            <button onclick="buyPrivilege('vip-lite', 25)">Купить за монеты</button>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <p>© 2025 CS 1.6 Fan Site. Неофициальный ресурс.</p>
+    <p>Все права принадлежат Valve Corporation.</p>
+</footer>
+
+<script>
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const token = localStorage.getItem('token');
+    const user = users.find(u => u.token === token);
+
+    if (!user) {
+        alert("Только авторизованные пользователи могут приобретать привилегии");
+        window.location.href = "login.html";
+    } else {
+        document.getElementById("userBalance").textContent = `Ваш баланс: ${user.coins || 0} монет`;
+
+        function buyPrivilege(role, cost) {
+            if ((user.coins || 0) >= cost) {
+                const today = new Date();
+                const endDate = new Date(today);
+                endDate.setDate(today.getDate() + 30); // Активна 30 дней
+
+                user.role = role;
+                user.privilegeExpires = endDate.toLocaleDateString(); // Сохраняем дату истечения
+                user.coins -= cost;
+
+                const updatedUsers = users.map(u => u.token === user.token ? user : u);
+                localStorage.setItem('users', JSON.stringify(updatedUsers));
+
+                alert(`Вы приобрели роль "${role}" на 30 дней`);
+                document.getElementById("userBalance").textContent = `Ваш баланс: ${user.coins} монет`;
+            } else {
+                alert("Недостаточно монет для покупки этой привилегии.");
+            }
+        }
+
+        window.buyPrivilege = buyPrivilege;
+    }
+</script>
+
+</body>
+</html>

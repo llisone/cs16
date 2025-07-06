@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Техподдержка | CS 1.6</title>
+    <style>
+        /* Общие стили */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to bottom right, #0f0f0f, #1a1a1a);
+            color: #f0f0f0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: #00d8ff;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.85);
+            padding: 20px 40px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #00ffe7;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        nav a:hover {
+            color: #00ffe7;
+        }
+
+        main {
+            padding: 60px 20px;
+            max-width: 800px;
+            margin: auto;
+            text-align: center;
+        }
+
+        h1, h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #00d8ff;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 500px;
+            margin: auto;
+            text-align: left;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #222;
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        textarea {
+            resize: vertical;
+            height: 100px;
+        }
+
+        button {
+            background-color: #00d8ff;
+            color: black;
+            border: none;
+            padding: 12px 20px;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #00ffe7;
+        }
+
+        .success-message {
+            color: #00ffe7;
+            margin-top: 20px;
+            display: none;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #888;
+            font-size: 0.9rem;
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">Counter-Strike 1.6</div>
+    <nav>
+        <ul>
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="privileges.html">Привилегии</a></li>
+            <li><a href="support.html">Техподдержка</a></li>
+            <li><a href="roles.html">Роли</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <section>
+        <h1>Создать обращение</h1>
+        <p>Заполните форму ниже, чтобы отправить обращение в техническую поддержку.</p>
+
+        <form id="supportForm">
+            <label for="subject">Что у Вас случилось?</label>
+            <input type="text" id="subject" name="subject" placeholder="Тема обращения" required>
+
+            <label for="description">Расскажите подробнее</label>
+            <textarea id="description" name="description" placeholder="Описание проблемы..."></textarea>
+
+            <label for="email">Ваш email</label>
+            <input type="email" id="email" name="email" placeholder="example@mail.ru" required>
+
+            <button type="submit">Отправить заявку</button>
+            <div class="success-message" id="successMessage">✅ Ваше обращение успешно отправлено!</div>
+        </form>
+    </section>
+</main>
+
+<footer>
+    <p>© 2023 CS 1.6 Fan Site. Неофициальный ресурс.</p>
+    <p>Все права принадлежат Valve Corporation.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com @3/dist/email.min.js"></script>
+<script>
+    (function () {
+        emailjs.init("8q2BYG51EFmLL2tA6"); // Public Key
+    })();
+
+    document.getElementById("supportForm").addEventListener("submit", function(e) {
+        e.preventDefault();
+
+        const subject = document.getElementById("subject").value.trim();
+        const description = document.getElementById("description").value.trim();
+        const email = document.getElementById("email").value.trim();
+
+        if (!subject || !description || !email) {
+            alert("Пожалуйста, заполните все поля.");
+            return;
+        }
+
+        // Отправляем через EmailJS
+        emailjs.send("service_1b0hhec", "template_duo9n41", {
+            to_email: "kutepovia@gmail.com", // Замени на свой email
+            user_email: email,
+            subject: subject,
+            message: description
+        })
+        .then(() => {
+            document.getElementById("successMessage").style.display = "block";
+            document.getElementById("supportForm").reset();
+        }, (error) => {
+            console.error("Ошибка отправки:", error);
+            alert("Не удалось отправить заявку. Попробуйте позже.");
+        });
+    });
+</script>
+</body>
+</html>
